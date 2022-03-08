@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/Pages/Components/BMITask/BIMStateModel.dart';
+import 'package:untitled1/models/BIMStateModel.dart';
 
 @immutable
 class BMIResultsScreen extends StatelessWidget {

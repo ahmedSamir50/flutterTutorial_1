@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/Pages/Components/AppBar.Components/MyAppBarActions.dart';
-import 'package:untitled1/Pages/Components/Bodys/MessengerBody.dart';
-import 'package:untitled1/Pages/Components/MyAppBar.dart';
-import 'package:untitled1/Pages/MyAppBody.dart';
+import 'package:untitled1/shared/components/MyAppBarActions.dart';
+import 'package:untitled1/modules/login/MessengerBody.dart';
+import 'package:untitled1/shared/components/MyAppBar.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);

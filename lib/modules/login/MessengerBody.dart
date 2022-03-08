@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/Models/UserInChatModel.dart';
-import 'package:untitled1/Pages/Components/AppBar.Components/UserInChatComponent.dart';
+import 'package:untitled1/models/UserInChatModel.dart';
+import 'package:untitled1/shared/components/UserInChatComponent.dart';
 
 class MessengerBody {
   static getMessengerBody(BuildContext context) {

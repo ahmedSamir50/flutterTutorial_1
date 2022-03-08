@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/AppStates/ChatState.dart';
-import 'package:untitled1/Pages/Components/BMITask/BMIApp.dart';
-import 'package:untitled1/Pages/HomePage.dart';
-import 'package:untitled1/Pages/LoginTask/LogInScreen.dart';
-import 'package:untitled1/Pages/MessengerTask/MessengerHomeScreen.dart';
+import 'package:untitled1/models/ChatState.dart';
+import 'package:untitled1/modules/bmi/BMIApp.dart';
 
 void main() => runApp(const BMIApp());
 

@@ -1,6 +1,6 @@
-import 'package:untitled1/Models/UserInChatModel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:untitled1/models/UserInChatModel.dart';
 
 class ChatsHttpService{
   final String userApiUrl = "https://randomuser.me/api";

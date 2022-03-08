@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled1/Models/UserInChatModel.dart';
-import 'package:untitled1/services/chatsHttpService.dart';
+import 'package:untitled1/models/UserInChatModel.dart';
+import 'package:untitled1/shared/netwok/remote/chatsHttpService.dart';
 
 class UserInChatComponent {
   static final DateFormat formatter = DateFormat('MM-dd hh:mm');

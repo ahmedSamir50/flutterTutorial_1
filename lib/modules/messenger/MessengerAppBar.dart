@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/Pages/Components/MyAppBar.dart';
+import 'package:untitled1/shared/components/MyAppBar.dart';
 
 class MessengerAppBar {
   static const avtImg =

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/Pages/Components/BMITask/BIMStateModel.dart';
-import 'package:untitled1/Pages/Components/BMITask/BMIApp.dart';
-import 'package:untitled1/Pages/Components/BMITask/BMIResultScreen.dart';
+import 'package:untitled1/models/BIMStateModel.dart';
+import 'package:untitled1/modules/bmi/BMIApp.dart';
+import 'package:untitled1/modules/bmi/BMIResultScreen.dart';
 
 class BMIState extends State<BMIApp> {
   static final widgetsBGColor = Colors.grey[900];
