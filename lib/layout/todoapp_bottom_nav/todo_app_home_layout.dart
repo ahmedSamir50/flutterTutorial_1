@@ -16,9 +16,9 @@ class _TodoHomeLayOutState extends State<TodoHomeLayOut> {
   int currentPageIdx = 0;
   List<Widget> screens = [ NewTasks(),DoneTasks(), ArchivedTasks()];
   @override
-  void initState()async {
+  void initState() {
     // TODO: implement initState
-     ToDoAppDbAHandler.CreateToDoDB();
+     ToDoAppDbAHandler.CreateToDoDB(context);
     super.initState();
   }
   @override
@@ -32,7 +32,9 @@ class _TodoHomeLayOutState extends State<TodoHomeLayOut> {
           title: Text((screens[currentPageIdx].runtimeType).toString()),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => {},
+          onPressed: ()async => {
+            ToDoAppDbAHandler.InsertNewTask("Demo Task 1 ")
+          },
           child: Icon(Icons.add),
         ),
         bottomNavigationBar: BottomNavigationBar(

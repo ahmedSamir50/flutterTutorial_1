@@ -1,13 +1,15 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:untitled1/shared/components/constants.dart';
 
 class ToDoAppDbAHandler {
   static const _dbPath = "todoAppSqliteDb.db";
-
-  static void CreateToDoDB()  {
+  static const _dbVersion = 1;
+  static void CreateToDoDB(BuildContext ctx)  {
      openDatabase(_dbPath,
-        version: 1,
+        version: _dbVersion,
         onCreate: (Database db, int version)  {
               db.execute('''
              CREATE TABLE Tasks
@@ -15,10 +17,42 @@ class ToDoAppDbAHandler {
               timeOfCreation TEXT, LastStateTime TEXT ,
               state INTEGER)
               ''')
-              .then((value) => print("DB Created"))
-              .catchError((onError) => {print("Error while Creating the Db")});
+              .then((value) => {
+                ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                  content: Text("SDB Created"),
+                ))
+              })
+              .catchError((onError) => {
+                ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                  content: Text("Error while Creating the Db"),
+                ))
+              });
         },
-        onOpen: (db) => {print("DB Is Opend ")})
-     .then((value) => print("CreateDb Calling Done"));
+        onOpen: (db) => {
+    ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+            content: Text("DB Is Opend "),
+          ))
+    })
+     .then((value) => {
+       ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+         content: Text("CreateDb Calling Done "),
+       ))
+     }
+     );
+  }
+
+  static Future<int?> InsertNewTask(String title )async {
+    Database db = await openDatabase(_dbPath,version: _dbVersion);
+    db.transaction((trans)async{
+      int insertedId = await trans.rawInsert('''
+           insert into tasks (title , timeOfCreation , state , LastStateTime)
+                        values ($title,
+                                datetime('now'),
+                                ${TODOAPPTASKStatuses.CREATED} ,
+                                datetime('now') )
+       ''');
+      return insertedId;
+    });
+    return null;
   }
 }
