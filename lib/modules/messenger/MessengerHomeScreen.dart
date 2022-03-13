@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/modules/messenger/MessengerAppBar.dart';
-import 'package:untitled1/modules/login/MessengerBody.dart';
+import 'package:untitled1/modules/messenger/MessengerBody.dart';
 
 class MessengerHomeScreen extends StatelessWidget{
 
