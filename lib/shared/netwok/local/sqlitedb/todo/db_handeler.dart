@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled1/shared/components/constants.dart';
 
@@ -30,7 +31,7 @@ class ToDoAppDbAHandler {
         },
         onOpen: (db) => {
     ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-            content: Text("DB Is Opend "),
+            content: Text("DB Is Opened "),
           ))
     })
      .then((value) => {
@@ -41,18 +42,26 @@ class ToDoAppDbAHandler {
      );
   }
 
-  static Future<int?> InsertNewTask(String title )async {
+  static Future<int?> InsertNewTask(String title ,String dt , String time)async {
+    DateTime dateOF = DateFormat("dd/MM/yyyy hh:mm").parse(dt+" "+time);
     Database db = await openDatabase(_dbPath,version: _dbVersion);
-    db.transaction((trans)async{
-      int insertedId = await trans.rawInsert('''
-           insert into tasks (title , timeOfCreation , state , LastStateTime)
-                        values ($title,
-                                datetime('now'),
-                                ${TODOAPPTASKStatuses.CREATED} ,
+    int insertedId = 0;
+    await db.transaction((trans)async{
+       insertedId = await trans.rawInsert('''
+           insert into tasks ('title' , 'timeOfCreation' , 'state' , 'LastStateTime')
+                        values ('$title',
+                                '$dateOF',
+                                '${TODOAPPTASKStatuses.CREATED}' ,
                                 datetime('now') )
        ''');
-      return insertedId;
     });
-    return null;
+    return insertedId;
+  }
+
+  static Future<List<Map>> GetAllTodos()async{
+    Database db = await openDatabase(_dbPath,version: _dbVersion);
+    List<Map> list = await db.rawQuery('SELECT * FROM tasks');
+    print(list);
+    return list;
   }
 }
