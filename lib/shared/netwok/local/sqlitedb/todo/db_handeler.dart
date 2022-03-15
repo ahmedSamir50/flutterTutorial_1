@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:untitled1/models/todo_model.dart';
 import 'package:untitled1/shared/components/constants.dart';
 
 class ToDoAppDbAHandler {
@@ -58,10 +59,12 @@ class ToDoAppDbAHandler {
     return insertedId;
   }
 
-  static Future<List<Map>> GetAllTodos()async{
+  static Future<List<TODOModel>> GetAllTodos()async{
     Database db = await openDatabase(_dbPath,version: _dbVersion);
-    List<Map> list = await db.rawQuery('SELECT * FROM tasks');
-    print(list);
-    return list;
+    List<Map> dbList = await db.rawQuery('SELECT * FROM tasks');
+    List<TODOModel> modelList =  dbList.map((e) => TODOModel.fromMap(e))
+                                       .toList();
+    modelList.sort((a,b)=>a.timeOfCreation.compareTo(b.timeOfCreation));
+    return modelList;
   }
 }

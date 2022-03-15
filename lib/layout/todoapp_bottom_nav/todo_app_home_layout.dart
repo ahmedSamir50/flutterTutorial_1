@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/models/todo_model.dart';
 import 'package:untitled1/modules/todoapp/archived.dart';
 import 'package:untitled1/modules/todoapp/done.dart';
 import 'package:untitled1/modules/todoapp/tasks.dart';
@@ -13,8 +15,10 @@ class TodoHomeLayOut extends StatefulWidget {
 }
 
 class _TodoHomeLayOutState extends State<TodoHomeLayOut> {
+   static List<TODOModel> todosModelList = [];
+   static NewTasks _newTasksScreenRef = NewTasks(todosModelList);
   int currentPageIdx = 0;
-  List<Widget> screens = const [NewTasks(), DoneTasks(), ArchivedTasks()];
+  List<Widget> screens =  [_newTasksScreenRef, DoneTasks(), ArchivedTasks()];
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var newFrmKey = GlobalKey<FormState>();
   bool bottomSheetOpen = false;
@@ -26,8 +30,14 @@ class _TodoHomeLayOutState extends State<TodoHomeLayOut> {
   void initState() {
     // TODO: implement initState
     ToDoAppDbAHandler.CreateToDoDB(context);
-    ToDoAppDbAHandler.GetAllTodos();
     super.initState();
+    ToDoAppDbAHandler.GetAllTodos().then((value) =>
+        setState((){
+          todosModelList = value;
+          _newTasksScreenRef = NewTasks(todosModelList);
+          screens[0] = _newTasksScreenRef;
+        })
+    );
   }
 
   @override
@@ -37,7 +47,8 @@ class _TodoHomeLayOutState extends State<TodoHomeLayOut> {
       debugShowCheckedModeBanner: false,
       home: Builder(builder:(context)=>  Scaffold(
         key: scaffoldKey,
-        body: screens[currentPageIdx],
+        body: todosModelList.isNotEmpty?screens[currentPageIdx]:
+                const Center(child: CircularProgressIndicator(color: Colors.blue)),
         appBar: AppBar(
           title: Text((screens[currentPageIdx].runtimeType).toString()),
         ),
