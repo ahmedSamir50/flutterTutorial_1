@@ -18,7 +18,7 @@ class TODOModel{
     timeOfCreation = dateFormat.parse((mapObj['timeOfCreation']??"").toString());
     lastStateTime = dateFormat.parse((mapObj['LastStateTime']??"").toString());
     state = (mapObj['state']??TODOAPPTASKStatuses.UNKNOWN).toString()
-                 ==TODOAPPTASKStatuses.CREATED?
+                 =="TODOAPPTASKStatuses.CREATED"?
                     TODOAPPTASKStatuses.CREATED:TODOAPPTASKStatuses.DONE;
   }
 
