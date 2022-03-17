@@ -12,7 +12,7 @@ class TODOModel{
 
   TODOModel.fromMap(Map<dynamic,dynamic>mapObj){
     print(mapObj);
-    DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm");
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd hh:mm");
     id = int.parse( (mapObj['id'] ?? 0).toString());
     title = (mapObj['title']??"").toString();
     timeOfCreation = dateFormat.parse((mapObj['timeOfCreation']??"").toString());

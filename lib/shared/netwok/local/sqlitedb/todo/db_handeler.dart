@@ -61,10 +61,9 @@ class ToDoAppDbAHandler {
 
   static Future<List<TODOModel>> GetAllTodos()async{
     Database db = await openDatabase(_dbPath,version: _dbVersion);
-    List<Map> dbList = await db.rawQuery('SELECT * FROM tasks');
+    List<Map> dbList = await db.rawQuery('SELECT * FROM tasks order by date(timeOfCreation) DESC');
     List<TODOModel> modelList =  dbList.map((e) => TODOModel.fromMap(e))
                                        .toList();
-    modelList.sort((a,b)=>a.timeOfCreation.compareTo(b.timeOfCreation));
     return modelList;
   }
 }
