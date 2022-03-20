@@ -14,3 +14,10 @@ formatDateToFormatedDate(DateTime dateTime){
   DateFormat dateFormat = DateFormat.yMMMd();
   return dateFormat.format(dateTime);
 }
+
+const tasksTableCreationStatement = '''
+         CREATE TABLE IF NOT EXISTS TABLE Tasks
+          (id INTEGER PRIMARY KEY, title TEXT, 
+          timeOfCreation TEXT, LastStateTime TEXT ,
+          state INTEGER)
+          ''';

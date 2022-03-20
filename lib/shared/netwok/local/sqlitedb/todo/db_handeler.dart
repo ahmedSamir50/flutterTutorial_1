@@ -1,69 +1,70 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled1/models/todo_model.dart';
 import 'package:untitled1/shared/components/constants.dart';
+import 'package:untitled1/shared/helpers/helpers.dart';
+import 'dart:io' as io;
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class ToDoAppDbAHandler {
+  ToDoAppDbAHandler._privateConstructor();
+
+  static final ToDoAppDbAHandler instance = ToDoAppDbAHandler
+      ._privateConstructor();
+
   static const _dbPath = "todoAppSqliteDb.db";
-  static const _dbVersion = 1;
-  static void CreateToDoDB(BuildContext ctx)  {
-     openDatabase(_dbPath,
+  static const _dbVersion = 2;
+  static Database? _database;
+
+  Future<Database> get database async => _database ??= await _getDbInstance();
+
+  Future<Database> _getDbInstance() async {
+
+    var databasesPath = (await getApplicationDocumentsDirectory()).path;
+    var finalPath = join(databasesPath, _dbPath);
+    printOnyOnDebugMode(["final path ","$finalPath"]);
+    return await openDatabase(finalPath,
         version: _dbVersion,
-        onCreate: (Database db, int version)  {
-              db.execute('''
-             CREATE TABLE Tasks
-              (id INTEGER PRIMARY KEY, title TEXT, 
-              timeOfCreation TEXT, LastStateTime TEXT ,
-              state INTEGER)
-              ''')
-              .then((value) => {
-                ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-                  content: Text("SDB Created"),
-                ))
-              })
-              .catchError((onError) => {
-                ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-                  content: Text("Error while Creating the Db"),
-                ))
-              });
-        },
-        onOpen: (db) => {
-    ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-            content: Text("DB Is Opened "),
-          ))
-    })
-     .then((value) => {
-       ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-         content: Text("CreateDb Calling Done "),
-       ))
-     }
-     );
+        onCreate: (db, version) => OnCreateDb(db, version),
+        onUpgrade: (db, oldVersion,newVersion) => OnCreateDb(db, newVersion),
+        onOpen: (Database db) {
+          printOnyOnDebugMode([db.path]);
+          printOnyOnDebugMode(["DB Is Opened "]);
+        });
   }
 
-  static Future<int?> InsertNewTask(String title ,String dt , String time)async {
-    DateTime dateOF = DateFormat("dd/MM/yyyy hh:mm").parse(dt+" "+time);
-    Database db = await openDatabase(_dbPath,version: _dbVersion);
+  FutureOr<void> OnCreateDb(Database db, int version) async {
+    try {
+      printOnyOnDebugMode(["Will Create DB "]);
+      await db.execute(tasksTableCreationStatement);
+      printOnyOnDebugMode(["SDB Created"]);
+    }
+    catch (onError) {
+      printOnyOnDebugMode(["*****Error while Creating the Db***** : ",onError]);
+    }
+  }
+
+  Future<int?> InsertNewTask(String title, String dt, String time) async {
+    DateTime dateOF = DateFormat("dd/MM/yyyy hh:mm").parse(dt + " " + time);
     int insertedId = 0;
-    await db.transaction((trans)async{
-       insertedId = await trans.rawInsert('''
-           insert into tasks ('title' , 'timeOfCreation' , 'state' , 'LastStateTime')
-                        values ('$title',
-                                '$dateOF',
-                                '${TODOAPPTASKStatuses.CREATED}' ,
-                                datetime('now') )
-       ''');
+    TODOAPPTASKStatuses createdState = TODOAPPTASKStatuses.CREATED;
+    (await instance.database).transaction((trans) async {
+      insertedId = await trans.rawInsert(''' insert into Tasks ('title' , 'timeOfCreation' , 'state' , 'LastStateTime')
+                      values( '$title', $dateOF , $createdState , datetime('now') ) ''');
     });
     return insertedId;
   }
 
-  static Future<List<TODOModel>> GetAllTodos()async{
-    Database db = await openDatabase(_dbPath,version: _dbVersion);
-    List<Map> dbList = await db.rawQuery('SELECT * FROM tasks order by date(timeOfCreation) DESC');
-    List<TODOModel> modelList =  dbList.map((e) => TODOModel.fromMap(e))
-                                       .toList();
+  Future<List<TODOModel>> GetAllTodos() async {
+    var dbList = await (await instance.database).rawQuery(
+        "SELECT * FROM Tasks order by date(timeOfCreation) DESC ");
+    List<TODOModel> modelList = (dbList).map((e) =>
+        TODOModel.fromMap(e)).toList();
     return modelList;
   }
 }

@@ -63,24 +63,20 @@ class MyAppBody {
                       backgroundColor: Colors.red),
                 ),
               ),
-              Container(
-                child: Text(
-                  "Second Text Of Column",
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      backgroundColor: Colors.amber),
-                ),
-              ),
-              Container(
-                  child: Text(
+              const Text(
                 "Second Text Of Column",
                 style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,
-                    backgroundColor: Colors.green),
-              ) //text 14),)
-                  ),
+                    backgroundColor: Colors.amber),
+              ),
+              const Text(
+                "Second Text Of Column",
+                style: TextStyle(
+                fontSize: 30,
+                color: Colors.white,
+                backgroundColor: Colors.green),
+              ),
               Container(
                 child: const Text(
                   "First Text Of Column",
