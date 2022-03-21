@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/models/todo_model.dart';
 import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
 import 'package:untitled1/shared/components/components.dart';
@@ -8,17 +7,20 @@ import 'package:untitled1/shared/components/constants.dart';
 import 'package:untitled1/shared/helpers/helpers.dart';
 
 class NewTasks extends StatelessWidget {
-
+  static bool firstCallMade = false;
   NewTasks({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TODOAppCubit , TODOStateBase>(builder: (context , state){
       var cubit = TODOAppCubit.getCubitOfTodo(context);
+      if(!firstCallMade) {
+        cubit.getAllTodos();
+        firstCallMade = true;
+        printOnyOnDebugMode(["Called : ",firstCallMade]);
+      }
       var listOfTasks = cubit.todosModelList;
       listOfTasks = listOfTasks.where((element) => element.state == TODOAPPTASKStatuses.CREATED).toList();
-      printOnyOnDebugMode([" from tasks screen "]);
-      printOnyOnDebugMode(listOfTasks);
       if (listOfTasks.isEmpty) {
         return Center(
           child: Container(
@@ -29,7 +31,7 @@ class NewTasks extends StatelessWidget {
       }
       return ListView.separated(
           itemBuilder: (ctx, idx) {
-            return todoModelWidgetBuilder(listOfTasks[idx]);
+            return todoModelWidgetBuilder(listOfTasks[idx] , cubit);
           },
           separatorBuilder: (ctx, idx) {
             return Container(

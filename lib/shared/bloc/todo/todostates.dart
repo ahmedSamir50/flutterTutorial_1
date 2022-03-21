@@ -11,4 +11,6 @@ class TodoGetDataDataBaseState extends TODOStateBase{}
 
 class TodoBottomSheetState extends TODOStateBase{}
 
-class TodoBAppLoadingState extends TODOStateBase{}
+class TodoAppLoadingState extends TODOStateBase{}
+
+class TodoSetAsArchivedState extends TODOStateBase{}

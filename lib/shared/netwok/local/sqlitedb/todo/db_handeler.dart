@@ -62,6 +62,11 @@ class ToDoAppDbAHandler {
     return insertedId;
   }
 
+  Future<int> UpdateTaskStatus(int taskID , {TODOAPPTASKStatuses taskNewState = TODOAPPTASKStatuses.DONE}) async {
+
+    return (await instance.database).rawUpdate(''' Update Tasks Set state = '$taskNewState' , LastStateTime = datetime('now') Where id = $taskID  '''  );
+  }
+
   Future<List<TODOModel>> GetAllTodos() async {
     var dbList = await (await instance.database).rawQuery(
         "SELECT * FROM Tasks order by date(timeOfCreation) DESC ");

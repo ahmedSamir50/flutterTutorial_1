@@ -4,6 +4,10 @@
 
 void printOnyOnDebugMode(List<dynamic>params){
       if (kDebugMode) {
-        print({...params});
+        for (var element in params) {
+          var t = element.runtimeType();
+          print(element);
+        }
+
       }
 }

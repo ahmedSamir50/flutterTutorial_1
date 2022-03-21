@@ -25,7 +25,6 @@ class TodoHomeLayOut extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Builder(
           builder: (context){
-            print("object");
             return BlocProvider(
               create: (BuildContext context) => TODOAppCubit(),
               child: BlocConsumer<TODOAppCubit , TODOStateBase>(

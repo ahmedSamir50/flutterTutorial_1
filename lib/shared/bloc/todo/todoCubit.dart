@@ -5,6 +5,7 @@ import 'package:untitled1/modules/todoapp/archived.dart';
 import 'package:untitled1/modules/todoapp/done.dart';
 import 'package:untitled1/modules/todoapp/tasks.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
+import 'package:untitled1/shared/components/constants.dart';
 import 'package:untitled1/shared/helpers/helpers.dart';
 import 'package:untitled1/shared/netwok/local/sqlitedb/todo/db_handeler.dart';
 
@@ -17,7 +18,7 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
   IconData addingButtonIcon = Icons.edit;
   late final ToDoAppDbAHandler dbHandler ;
   bool loadingData = false;
-
+  static bool isFirstGetCallMade = false;
   TODOAppCubit() : super(TODOInitState()) {
     dbHandler = ToDoAppDbAHandler.instance;
     screens = [ NewTasks(), const DoneTasks(), const ArchivedTasks()];
@@ -46,15 +47,14 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
   }
 
   void getAllTodos() {
-    print("gitting");
     appIsLoading();
     dbHandler.GetAllTodos().then((List<TODOModel> value) {
       todosModelList = value;
-      printOnyOnDebugMode(["returned ------------"]);
-      printOnyOnDebugMode(todosModelList);
-
       emit(TodoGetDataDataBaseState());
       appIsLoading();
+      if(!isFirstGetCallMade){
+        isFirstGetCallMade = true;
+      }
     }).onError((error, stackTrace) {
       printOnyOnDebugMode(["****ERROR*****"]);
       printOnyOnDebugMode([{error , stackTrace.toString()}]);
@@ -75,7 +75,13 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
 
   void appIsLoading(){
     loadingData = !loadingData;
-    emit(TodoBAppLoadingState());
+    emit(TodoAppLoadingState());
+  }
+
+  void setTaskAsDoneOrAnyOtherState(int id , {TODOAPPTASKStatuses taskNewState = TODOAPPTASKStatuses.DONE} ){
+    dbHandler.UpdateTaskStatus(id);
+    emit(TodoSetAsArchivedState());
+    getAllTodos();
   }
 
 }
