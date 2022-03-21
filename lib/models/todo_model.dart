@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled1/shared/components/constants.dart';
 
@@ -23,4 +24,10 @@ class TODOModel{
   }
 
 
+}
+
+class NewTodoControllerModel{
+  TextEditingController newTaskTitleController = TextEditingController();
+  TextEditingController newTaskDateController = TextEditingController();
+  TextEditingController newTaskTimeController = TextEditingController();
 }

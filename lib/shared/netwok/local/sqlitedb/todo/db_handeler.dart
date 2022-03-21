@@ -53,9 +53,11 @@ class ToDoAppDbAHandler {
     DateTime dateOF = DateFormat("dd/MM/yyyy hh:mm").parse(dt + " " + time);
     int insertedId = 0;
     TODOAPPTASKStatuses createdState = TODOAPPTASKStatuses.CREATED;
+    String sqlInsertStatement = ''' insert into Tasks ('title' , 'timeOfCreation' , 'state' , 'LastStateTime')
+                      values( '$title', '$dateOF' , '$createdState' , datetime('now') ) ''';
+    printOnyOnDebugMode([sqlInsertStatement]);
     (await instance.database).transaction((trans) async {
-      insertedId = await trans.rawInsert(''' insert into Tasks ('title' , 'timeOfCreation' , 'state' , 'LastStateTime')
-                      values( '$title', $dateOF , $createdState , datetime('now') ) ''');
+      insertedId = await trans.rawInsert(sqlInsertStatement);
     });
     return insertedId;
   }

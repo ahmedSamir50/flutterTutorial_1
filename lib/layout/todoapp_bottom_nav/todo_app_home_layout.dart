@@ -5,7 +5,7 @@ import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
 import 'package:untitled1/shared/components/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/shared/netwok/local/sqlitedb/todo/db_handeler.dart';
+import 'package:untitled1/shared/helpers/helpers.dart';
 
 
 class TodoHomeLayOut extends StatelessWidget {
@@ -15,9 +15,7 @@ class TodoHomeLayOut extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var newFrmKey = GlobalKey<FormState>();
 
-  var newTaskController = TextEditingController();
-  var newTaskDateController = TextEditingController();
-  var newTaskTimeController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,53 +24,54 @@ class TodoHomeLayOut extends StatelessWidget {
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: Builder(
-          builder: (context) => BlocProvider(
-                 create: (BuildContext context) => TODOAppCubit(),
-                  child: BlocConsumer<TODOAppCubit , TODOStateBase>(
-                    builder: (context, state) {
-                      TODOAppCubit cubitState = TODOAppCubit.getCubitOfTodo(context);
-                      cubitState.getAllTodos();
-                      return Scaffold(
-                        key: scaffoldKey,
-                        body: cubitState.todosModelList.isNotEmpty
-                            ? cubitState.screens[cubitState.currentPageIdx]
-                            : const Center(
-                            child: CircularProgressIndicator(color: Colors.blue)),
-                        appBar: AppBar(
-                          title: Text(getScreenRuntimeTypeName(cubitState)),
-                        ),
-                        floatingActionButton: FloatingActionButton(
-                          onPressed: () {
-                            if (!cubitState.bottomSheetOpen) {
-                              cubitState.changingBottomSheetState(isBottomSheetOpen:  true);
-                              if (scaffoldKey.currentState != null) {
-                                scaffoldKey.currentState!
-                                    .showBottomSheet((context) => Container(
-                                  color: Colors.greenAccent,
-                                  height: 200,
-                                  padding: const EdgeInsets.all(10),
-                                  child: buildNewTaskForm(context),
-                                )).closed
-                                    .then((closed) {
-                                  cubitState.changingBottomSheetState(isBottomSheetOpen:  false);
-                                });
-                              }
-                            } else {
-                              if (newFrmKey.currentState != null && newFrmKey.currentState!.validate()) {
-                                insertNewTaskAndSetState(context , cubitState);
-                              }
-                            }
-                          },
-                          child: Icon(cubitState.addingButtonIcon),
-                        ),
-                        bottomNavigationBar: buildBottomNavigationBar(cubitState),
-                      );
-                    },
-                    listener: (BuildContext context , state)=>{
-                      print(state)
-                    },
-                  ),
-          )
+          builder: (context){
+            print("object");
+            return BlocProvider(
+              create: (BuildContext context) => TODOAppCubit(),
+              child: BlocConsumer<TODOAppCubit , TODOStateBase>(
+                builder: (context, state) {
+                  printOnyOnDebugMode([state]);
+                  TODOAppCubit cubitState = TODOAppCubit.getCubitOfTodo(context);
+                  return Scaffold(
+                    key: scaffoldKey,
+                    body: !cubitState.loadingData ?cubitState.screens[cubitState.currentPageIdx]
+                        : const Center( child: CircularProgressIndicator(color: Colors.blue)),
+                    appBar: AppBar(
+                      title: Text(getScreenRuntimeTypeName(cubitState)),
+                    ),
+                    floatingActionButton: FloatingActionButton(
+                      onPressed: () {
+                        if (!cubitState.bottomSheetOpen) {
+                          cubitState.changingBottomSheetState(isBottomSheetOpen:  true);
+                          if (scaffoldKey.currentState != null) {
+                            scaffoldKey.currentState!
+                                .showBottomSheet((context) => Container(
+                              color: Colors.greenAccent,
+                              height: 200,
+                              padding: const EdgeInsets.all(10),
+                              child: buildNewTaskForm(context , cubitState),
+                            )).closed
+                                .then((closed) {
+                              cubitState.changingBottomSheetState(isBottomSheetOpen:  false);
+                            });
+                          }
+                        } else {
+                          if (newFrmKey.currentState != null && newFrmKey.currentState!.validate()) {
+                            insertNewTaskAndSetState(context , cubitState);
+                          }
+                        }
+                      },
+                      child: Icon(cubitState.addingButtonIcon),
+                    ),
+                    bottomNavigationBar: buildBottomNavigationBar(cubitState),
+                  );
+                },
+                listener: (BuildContext context , state)=>{
+                  //printOnyOnDebugMode([state])
+                },
+              ),
+            );
+          }
       ),
     );
   }
@@ -80,12 +79,12 @@ class TodoHomeLayOut extends StatelessWidget {
   String getScreenRuntimeTypeName(TODOAppCubit cubitState) =>
       (cubitState.screens[cubitState.currentPageIdx].runtimeType).toString();
 
-  Form buildNewTaskForm(BuildContext context) {
+  Form buildNewTaskForm(BuildContext context  , TODOAppCubit cubitState ) {
     return Form(key: newFrmKey, child: Column(
                  mainAxisSize: MainAxisSize.min,
                   children: [
                     //#region text
-                    buildDefaultTextInputForTodoTitle(),
+                    buildDefaultTextInputForTodoTitle(cubitState),
                     //#endregion
                     const SizedBox(height: 15),
                     //TIME
@@ -94,11 +93,11 @@ class TodoHomeLayOut extends StatelessWidget {
                         Expanded(
                             child:
                             buildDefaultTextInputForTodoDateField(
-                                context)),
+                                context , cubitState)),
                         Expanded(
                             child:
                             buildDefaultTextInputForTaskTime(
-                                context))
+                                context , cubitState))
                       ],
                     )
                   ],
@@ -108,7 +107,7 @@ class TodoHomeLayOut extends StatelessWidget {
   BottomNavigationBar buildBottomNavigationBar(TODOAppCubit cubitState) {
     return BottomNavigationBar(
                 onTap: (pageIdx) {
-                 cubitState.changeCurrentViewIndex(pageIdx);
+                 cubitState.changeCurrentViewIndex(idx: pageIdx);
                 },
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.black54,
@@ -123,19 +122,15 @@ class TodoHomeLayOut extends StatelessWidget {
   }
 
   void insertNewTaskAndSetState(BuildContext context , TODOAppCubit cubitState) {
-    cubitState.insertNewTask(newTaskController.text,
-        newTaskDateController.text,
-        newTaskTimeController.text);
-
+    cubitState.insertNewTask();
     Navigator.of(context).pop();
-    cubitState.getAllTodos();
     cubitState.changingBottomSheetState(isBottomSheetOpen:  false);
 
   }
 
-  Widget buildDefaultTextInputForTaskTime(BuildContext context) {
+  Widget buildDefaultTextInputForTaskTime(BuildContext context , TODOAppCubit cubitState) {
     return defaultTextInput(
-        fromController: newTaskTimeController,
+        fromController:cubitState.todoFormController.newTaskTimeController,
         keyboardType: TextInputType.none,
         hint: "TODO Task Time",
         label: "New TODO Task Time",
@@ -146,7 +141,7 @@ class TodoHomeLayOut extends StatelessWidget {
           return null;
         },
         onFieldSubmit: (String val) {
-          newTaskController.text = val;
+          cubitState.todoFormController.newTaskTimeController.text = val;
         },
         prefixIcon: Icons.alarm,
         onTap: () {
@@ -154,17 +149,14 @@ class TodoHomeLayOut extends StatelessWidget {
             context: context,
             initialTime: TimeOfDay.now(),
           ).then((TimeOfDay? value) {
-            if (kDebugMode) {
-              print(value);
-            }
-            newTaskTimeController.text = value!.format(context).toString();
+            cubitState.todoFormController.newTaskTimeController.text = value!.format(context).toString();
           });
         });
   }
 
-  Widget buildDefaultTextInputForTodoDateField(BuildContext context) {
+  Widget buildDefaultTextInputForTodoDateField(BuildContext context, TODOAppCubit cubitState) {
     return defaultTextInput(
-        fromController: newTaskDateController,
+        fromController: cubitState.todoFormController.newTaskDateController,
         keyboardType: TextInputType.none,
         hint: "TODO Task Time",
         label: "New TODO Task Time",
@@ -175,17 +167,17 @@ class TodoHomeLayOut extends StatelessWidget {
           return null;
         },
         onFieldSubmit: (String val) {
-          newTaskController.text = val;
+          cubitState.todoFormController.newTaskDateController.text = val;
         },
         prefixIcon: Icons.calendar_month,
         onTap: () {
-          showADatePickerForNewTodo(context);
+          showADatePickerForNewTodo(context , cubitState);
         });
   }
 
-  Widget buildDefaultTextInputForTodoTitle() {
+  Widget buildDefaultTextInputForTodoTitle(TODOAppCubit cubitState) {
     return defaultTextInput(
-        fromController: newTaskController,
+        fromController: cubitState.todoFormController.newTaskTitleController,
         keyboardType: TextInputType.text,
         hint: "New TODO Task",
         label: "Adding New TODO Task",
@@ -196,21 +188,18 @@ class TodoHomeLayOut extends StatelessWidget {
           return null;
         },
         onFieldSubmit: (String val) {
-          newTaskController.text = val;
+          cubitState.todoFormController.newTaskTitleController.text = val;
         });
   }
 
-  Future showADatePickerForNewTodo(BuildContext context) {
+  Future showADatePickerForNewTodo(BuildContext context,TODOAppCubit cubitState) {
     return showDatePicker(
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime.now(),
             lastDate: DateTime.now().add(const Duration(days: 365)))
         .then((DateTime? value) {
-      if (kDebugMode) {
-        print("D" + DateFormat("dd/MM/yyyy").format(value!));
-      }
-      newTaskDateController.text = DateFormat("dd/MM/yyyy").format(value!);
+      cubitState.todoFormController.newTaskDateController.text = DateFormat("dd/MM/yyyy").format(value!);
     });
   }
 }

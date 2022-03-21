@@ -5,49 +5,60 @@ import 'package:untitled1/modules/todoapp/archived.dart';
 import 'package:untitled1/modules/todoapp/done.dart';
 import 'package:untitled1/modules/todoapp/tasks.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
+import 'package:untitled1/shared/helpers/helpers.dart';
 import 'package:untitled1/shared/netwok/local/sqlitedb/todo/db_handeler.dart';
 
 class TODOAppCubit extends Cubit<TODOStateBase> {
   List<TODOModel> todosModelList = <TODOModel>[];
-  late NewTasks _newTasksScreenRef;
-
+  NewTodoControllerModel todoFormController = NewTodoControllerModel();
   int currentPageIdx = 0;
   List<Widget> screens = [];
   bool bottomSheetOpen = false;
   IconData addingButtonIcon = Icons.edit;
   late final ToDoAppDbAHandler dbHandler ;
+  bool loadingData = false;
 
   TODOAppCubit() : super(TODOInitState()) {
     dbHandler = ToDoAppDbAHandler.instance;
-    _newTasksScreenRef = NewTasks(todosModelList);
-    screens = [_newTasksScreenRef, const DoneTasks(), const ArchivedTasks()];
+    screens = [ NewTasks(), const DoneTasks(), const ArchivedTasks()];
   }
 
   static TODOAppCubit getCubitOfTodo(BuildContext context) =>BlocProvider.of(context);
 
-  void changeCurrentViewIndex(int idx) {
+  void changeCurrentViewIndex({int idx = 0}) {
     currentPageIdx = idx;
     emit(TodoChangeNaveBarState());
   }
 
-  void insertNewTask(String title, String dt, String time) {
-    dbHandler.InsertNewTask(title, dt, time).then((value) {
+  void insertNewTask() {
+    appIsLoading();
+    dbHandler.InsertNewTask(todoFormController.newTaskTitleController.text,
+        todoFormController.newTaskDateController.text ,
+        todoFormController.newTaskTimeController.text).then((value) {
       emit(TodoInsertIntoDataBaseState());
+      getAllTodos();
+      todoFormController = NewTodoControllerModel();
+      appIsLoading();
     }).onError((error, stackTrace) {
       print({error , stackTrace.toString()});
+      appIsLoading();
     });
   }
 
   void getAllTodos() {
     print("gitting");
+    appIsLoading();
     dbHandler.GetAllTodos().then((List<TODOModel> value) {
       todosModelList = value;
-      print("returned ------------");
-      print(todosModelList);
+      printOnyOnDebugMode(["returned ------------"]);
+      printOnyOnDebugMode(todosModelList);
+
       emit(TodoGetDataDataBaseState());
+      appIsLoading();
     }).onError((error, stackTrace) {
-      print("****ERROR*****");
-      print({error , stackTrace.toString()});
+      printOnyOnDebugMode(["****ERROR*****"]);
+      printOnyOnDebugMode([{error , stackTrace.toString()}]);
+      appIsLoading();
     });
   }
 
@@ -59,5 +70,12 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
      bottomSheetOpen = isBottomSheetOpen;
      addingButtonIcon = !isBottomSheetOpen?Icons.edit:Icons.save;
      emit(TodoBottomSheetState());
+     print(bottomSheetOpen);
   }
+
+  void appIsLoading(){
+    loadingData = !loadingData;
+    emit(TodoBAppLoadingState());
+  }
+
 }

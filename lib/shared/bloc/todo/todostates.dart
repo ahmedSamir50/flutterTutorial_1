@@ -10,3 +10,5 @@ class TodoGetDataDataBaseState extends TODOStateBase{}
 
 
 class TodoBottomSheetState extends TODOStateBase{}
+
+class TodoBAppLoadingState extends TODOStateBase{}

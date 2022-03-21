@@ -16,7 +16,7 @@ formatDateToFormatedDate(DateTime dateTime){
 }
 
 const tasksTableCreationStatement = '''
-         CREATE TABLE IF NOT EXISTS TABLE Tasks
+         CREATE TABLE IF NOT EXISTS Tasks
           (id INTEGER PRIMARY KEY, title TEXT, 
           timeOfCreation TEXT, LastStateTime TEXT ,
           state INTEGER)
