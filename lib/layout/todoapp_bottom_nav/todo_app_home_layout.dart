@@ -5,7 +5,6 @@ import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
 import 'package:untitled1/shared/components/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/shared/helpers/helpers.dart';
 
 
 class TodoHomeLayOut extends StatelessWidget {
@@ -29,7 +28,7 @@ class TodoHomeLayOut extends StatelessWidget {
               create: (BuildContext context) => TODOAppCubit(),
               child: BlocConsumer<TODOAppCubit , TODOStateBase>(
                 builder: (context, state) {
-                  printOnyOnDebugMode([state]);
+                  //printOnyOnDebugMode([state]);
                   TODOAppCubit cubitState = TODOAppCubit.getCubitOfTodo(context);
                   return Scaffold(
                     key: scaffoldKey,

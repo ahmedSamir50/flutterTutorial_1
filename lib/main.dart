@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/layout/todoapp_bottom_nav/todo_app_home_layout.dart';
+import 'package:untitled1/layout/news_app/news_app_layout.dart';
 import 'package:untitled1/models/ChatState.dart';
+import 'package:untitled1/shared/dependency_injection.dart';
 
-import 'package:untitled1/shared/netwok/local/sqlitedb/todo/db_handeler.dart';
 
 void main() {
-
-  runApp(TodoHomeLayOut());
+  DI().setup();
+  runApp(const NewsAppLayout());
 }
 
 class MyApp extends StatefulWidget {
