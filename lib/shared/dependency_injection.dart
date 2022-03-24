@@ -3,6 +3,22 @@ import 'package:untitled1/shared/netwok/remote/dio_Helper.dart';
 
 final getItDIContainer = GetIt.instance;
 getService<T>()=> getItDIContainer<T>();
+
+enum InjectionLifeTime{
+  singletonLazy,
+  singleton ,
+  transiant,
+  scoped
+}
+class InjectingModel<IT,T is IT>{
+  static inject(InjectionLifeTime lifeTime){
+    switch(lifeTime){
+      case InjectionLifeTime.singleton:{
+        getItDIContainer.registerSingleton<IType>(Type)
+      }
+    }
+  }
+}
 class DI {
 
   void setup() {
