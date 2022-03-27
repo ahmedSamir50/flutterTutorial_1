@@ -18,6 +18,7 @@ class NewsAppLayout extends StatelessWidget {
           child: BlocConsumer<NewsAppCubit, NewsBaseState>(
             builder: (ctx, state) {
               INewsAppCubit cubit = NewsAppCubit.getCubitInstance(ctx);
+              var ret = cubit.getNews();
               return Scaffold(
                 appBar: AppBar(
                   elevation: 0.0,
