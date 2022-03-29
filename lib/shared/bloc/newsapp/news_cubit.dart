@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/models/news_api_response.dart';
@@ -25,6 +26,8 @@ abstract class INewsAppCubit {
   int currentAppScreenIdx = 0;
   String appTitle = "";
   bool appIsLoading = false;
+  bool appHasError = false;
+  String appErrorString = "Error";
   NewsApiResponse? newsResults ;
 }
 
@@ -38,6 +41,10 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
   String appTitle = "";
   @override
   bool appIsLoading = false;
+  @override
+  bool appHasError = false;
+  @override
+  String appErrorString = "Error";
   @override
   NewsApiResponse? newsResults = NewsApiResponse(
       status: NewsApiCallStatus.failed, totalResults: 0, articles: []);
@@ -97,9 +104,15 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
                    screen.contains("Social")?NewsCategories.Social:
                    NewsCategories.Any;
       isFirstCallMade = true;
-      getNews(caller);
+      getNews(caller).onError((error, stackTrace) {
+        appHasError = true;
+        if (kDebugMode) {
+        appErrorString = error.toString();
+        }
+        emit(AppHasErrorState());
+      });
     }
-    //emit(AppChangingScreen());
+    emit(AppChangingScreen());
     return newsScreens[currentAppScreenIdx];
   }
 

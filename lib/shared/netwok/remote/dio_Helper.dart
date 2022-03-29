@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:untitled1/shared/helpers/helpers.dart';
 
 abstract class IDioHelper{
   Future<Response<Map>> getData({required Uri uri});
@@ -18,14 +19,14 @@ class DioHelper implements IDioHelper {
  }
   @override
   Future<Response<Map>> getData({required Uri uri})async{
-    print("Calling : "+uri.toString());
+    printOnyOnDebugMode(["Calling : "+uri.toString()]);
     try {
       Response<Map> res = await _dio.getUri(uri);
       return res;
     }
     catch(error){
-      print("getData Error : " + error.toString());
-      return Response(data: {}, statusCode: 400 , requestOptions: RequestOptions(path: uri.path));
+      printOnyOnDebugMode(["getData Error : " + error.toString()]);
+      rethrow;
     }
   }
 

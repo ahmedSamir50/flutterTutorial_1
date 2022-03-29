@@ -33,7 +33,10 @@ class NewsAppLayout extends StatelessWidget {
                   ) ,
                 ),
                 bottomNavigationBar: getNewsNavBar(ctx, cubit),
-                body:  cubit.getCurrentScreen(),
+                body:  !cubit.appHasError ? cubit.getCurrentScreen() :
+                 Center(child:  SingleChildScrollView(
+                   child: Text(cubit.appErrorString,style: const TextStyle(color: Colors.red,fontWeight: FontWeight.w800),),
+                 )),
                 floatingActionButton: FloatingActionButton(
                   onPressed: ()=>{
                     cubit.getNews()
