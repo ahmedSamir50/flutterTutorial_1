@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:untitled1/models/news_api_response.dart';
 import 'package:untitled1/models/todo_model.dart';
+import 'package:untitled1/shared/bloc/newsapp/news_cubit.dart';
 import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/components/constants.dart';
 
@@ -87,4 +90,35 @@ Widget todoModelWidgetBuilder(TODOModel model , TODOAppCubit cubitState) {
      ),
    ),flex: 2,)
   ]);
+}
+
+Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit){
+  var img = const NetworkImage("images/loading.gif");
+  return Row(
+    children: [
+      Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(
+            image:  model.urlToImage!="" ? NetworkImage(model.urlToImage) :img,
+            fit: BoxFit.cover,
+          )
+        ),
+      ),
+      const SizedBox(width: 5,),
+      Expanded(child: SizedBox(
+        height: 80,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(child: Text(model.title , style: const TextStyle(fontSize: 18 , fontWeight: FontWeight.bold),)),
+            Text(DateFormat("yyyy-MM-dd").format(model.publishedAt) ,
+              style:  TextStyle(color: Colors.grey[900] ),textAlign: TextAlign.left,)
+          ],
+        ),
+      ))
+    ],
+  );
 }

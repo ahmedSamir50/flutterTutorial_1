@@ -18,7 +18,6 @@ class NewsAppLayout extends StatelessWidget {
           child: BlocConsumer<NewsAppCubit, NewsBaseState>(
             builder: (ctx, state) {
               INewsAppCubit cubit = NewsAppCubit.getCubitInstance(ctx);
-              var ret = cubit.getNews();
               return Scaffold(
                 appBar: AppBar(
                   elevation: 0.0,
@@ -34,7 +33,13 @@ class NewsAppLayout extends StatelessWidget {
                   ) ,
                 ),
                 bottomNavigationBar: getNewsNavBar(ctx, cubit),
-                body: cubit.getCurrentScreen(),
+                body:  cubit.getCurrentScreen(),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: ()=>{
+                    cubit.getNews()
+                  },
+                  child: const Icon(Icons.refresh),
+                ),
               );
             },
             listener: (ctx, state) {},
@@ -42,6 +47,7 @@ class NewsAppLayout extends StatelessWidget {
         );
       }),
       theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
         backgroundColor: Colors.white,
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(

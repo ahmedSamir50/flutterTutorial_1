@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 
 abstract class IDioHelper{
-  Future<Response> getData<T>({required Uri uri});
-  Future<Response<T?>> getDataWithPCB<T>({required Uri uri , required ProgressCallback progCallBack});
+  Future<Response<Map>> getData({required Uri uri});
+  Future<Response<Map>> getDataWithPCB({required Uri uri , required ProgressCallback progCallBack});
 }
 
 //@Injectable()
@@ -18,15 +17,22 @@ class DioHelper implements IDioHelper {
    _dio = Dio(BaseOptions(baseUrl:uriBase , receiveDataWhenStatusError: true));
  }
   @override
-  Future<Response> getData<T>({required Uri uri})async{
-    var res =  await _dio.getUri( uri);
-    return res;
+  Future<Response<Map>> getData({required Uri uri})async{
+    print("Calling : "+uri.toString());
+    try {
+      Response<Map> res = await _dio.getUri(uri);
+      return res;
+    }
+    catch(error){
+      print("getData Error : " + error.toString());
+      return Response(data: {}, statusCode: 400 , requestOptions: RequestOptions(path: uri.path));
+    }
   }
 
   @override
-  Future<Response<T?>> getDataWithPCB<T>({required Uri uri , required ProgressCallback progCallBack})async{
-    var getres =  await _dio.get(uri.path ,queryParameters: uri.queryParameters , onReceiveProgress: progCallBack);
-     return getres.data;
+  Future<Response<Map>> getDataWithPCB({required Uri uri , required ProgressCallback progCallBack})async{
+    Response<Map> getRes =  await _dio.getUri(uri , onReceiveProgress: progCallBack);
+     return getRes;
  }
 
 
