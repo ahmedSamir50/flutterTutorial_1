@@ -14,3 +14,5 @@ class TodoBottomSheetState extends TODOStateBase{}
 class TodoAppLoadingState extends TODOStateBase{}
 
 class TodoSetAsArchivedState extends TODOStateBase{}
+class TodoSetAsDoneState extends TODOStateBase{}
+class TodoSetAsDeletedState extends TODOStateBase{}

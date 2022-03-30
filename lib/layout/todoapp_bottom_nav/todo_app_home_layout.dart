@@ -77,29 +77,31 @@ class TodoHomeLayOut extends StatelessWidget {
   String getScreenRuntimeTypeName(TODOAppCubit cubitState) =>
       (cubitState.screens[cubitState.currentPageIdx].runtimeType).toString();
 
-  Form buildNewTaskForm(BuildContext context  , TODOAppCubit cubitState ) {
-    return Form(key: newFrmKey, child: Column(
-                 mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //#region text
-                    buildDefaultTextInputForTodoTitle(cubitState),
-                    //#endregion
-                    const SizedBox(height: 15),
-                    //TIME
-                    Row(
-                      children: [
-                        Expanded(
-                            child:
-                            buildDefaultTextInputForTodoDateField(
-                                context , cubitState)),
-                        Expanded(
-                            child:
-                            buildDefaultTextInputForTaskTime(
-                                context , cubitState))
-                      ],
-                    )
-                  ],
-                ));
+  Widget buildNewTaskForm(BuildContext context  , TODOAppCubit cubitState ) {
+    return SafeArea(child: SingleChildScrollView(child: Form(key: newFrmKey, child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        //#region text
+        buildDefaultTextInputForTodoTitle(cubitState),
+        //#endregion
+        const SizedBox(height: 15),
+        //TIME
+        Row(
+          children: [
+            Expanded(
+                child:
+                buildDefaultTextInputForTodoDateField(
+                    context , cubitState)),
+            Expanded(
+                child:
+                buildDefaultTextInputForTaskTime(
+                    context , cubitState))
+          ],
+        )
+      ],
+    )
+    )),
+    );
   }
 
   BottomNavigationBar buildBottomNavigationBar(TODOAppCubit cubitState) {

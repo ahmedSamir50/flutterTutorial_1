@@ -20,7 +20,10 @@ class TODOModel{
     lastStateTime = dateFormat.parse((mapObj['LastStateTime']??"").toString());
     state = (mapObj['state']??TODOAPPTASKStatuses.UNKNOWN).toString()
                  =="TODOAPPTASKStatuses.CREATED"?
-                    TODOAPPTASKStatuses.CREATED:TODOAPPTASKStatuses.DONE;
+                    TODOAPPTASKStatuses.CREATED:
+    (mapObj['state']??TODOAPPTASKStatuses.UNKNOWN).toString()
+        =="TODOAPPTASKStatuses.ARCHIVED"?TODOAPPTASKStatuses.ARCHIVED:
+    TODOAPPTASKStatuses.DONE;
   }
 
 

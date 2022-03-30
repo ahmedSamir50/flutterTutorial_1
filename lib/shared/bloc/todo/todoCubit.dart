@@ -79,9 +79,19 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
   }
 
   void setTaskAsDoneOrAnyOtherState(int id , {TODOAPPTASKStatuses taskNewState = TODOAPPTASKStatuses.DONE} ){
-    dbHandler.UpdateTaskStatus(id);
-    emit(TodoSetAsArchivedState());
+    dbHandler.UpdateTaskStatus(id,taskNewState: taskNewState);
+    if(taskNewState == TODOAPPTASKStatuses.ARCHIVED) {
+      emit(TodoSetAsArchivedState());
+    }
+    if(taskNewState == TODOAPPTASKStatuses.DELETED) {
+      emit(TodoSetAsDeletedState());
+    }
+    else
+      {
+        emit(TodoSetAsDoneState());
+      }
     getAllTodos();
   }
+  
 
 }

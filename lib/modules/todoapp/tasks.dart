@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/bloc/todo/todostates.dart';
+import 'package:untitled1/shared/components/NoTasksAddYetComponent.dart';
 import 'package:untitled1/shared/components/components.dart';
 import 'package:untitled1/shared/components/constants.dart';
 import 'package:untitled1/shared/helpers/helpers.dart';
@@ -22,12 +23,7 @@ class NewTasks extends StatelessWidget {
       var listOfTasks = cubit.todosModelList;
       listOfTasks = listOfTasks.where((element) => element.state == TODOAPPTASKStatuses.CREATED).toList();
       if (listOfTasks.isEmpty) {
-        return Center(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: const Text("No Tasks Added yet ...."),
-          ),
-        );
+        return const NoTasksAddYetComponent();
       }
       return ListView.separated(
           itemBuilder: (ctx, idx) {
@@ -44,3 +40,5 @@ class NewTasks extends StatelessWidget {
     }, listener: (context , state)=>{});
   }
 }
+
+
