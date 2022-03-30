@@ -92,8 +92,9 @@ Widget todoModelWidgetBuilder(TODOModel model , TODOAppCubit cubitState) {
   ]);
 }
 
-Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit){
-  var img = const NetworkImage("images/loading.gif");
+Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit , BuildContext context){
+  var img = "assets/images/loading.gif";
+  String imgUrl = (model.urlToImage.isNotEmpty ? model.urlToImage : img);
   return Row(
     children: [
       Container(
@@ -101,19 +102,21 @@ Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit){
         width: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-            image:  model.urlToImage!="" ? NetworkImage(model.urlToImage) :img,
-            fit: BoxFit.cover,
-          )
         ),
-      ),
+        child:FadeInImage(image: NetworkImage( imgUrl, scale: 1) , placeholder: AssetImage(img),)
+        ),
       const SizedBox(width: 5,),
       Expanded(child: SizedBox(
         height: 80,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(child: Text(model.title , style: const TextStyle(fontSize: 18 , fontWeight: FontWeight.bold),)),
+            Expanded(child:
+            Text(model.title ,
+              style: Theme.of(context).textTheme.bodyText1,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              )),
             Text(DateFormat("yyyy-MM-dd").format(model.publishedAt) ,
               style:  TextStyle(color: Colors.grey[900] ),textAlign: TextAlign.left,)
           ],

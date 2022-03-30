@@ -5,7 +5,7 @@ enum TODOAPPTASKStatuses{
   CREATED , DONE ,ARCHIVED , DELETED , UNKNOWN
 }
 enum NewsCategories {
-  Business , Sports , Social , Any
+  Business , Sports , Social ,Science, Any
 }
 formatDateToTimeOnly(DateTime dateTime){
   DateFormat dateFormat = DateFormat.Hm();

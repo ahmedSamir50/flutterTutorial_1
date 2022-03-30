@@ -25,15 +25,22 @@ class DioHelper implements IDioHelper {
       return res;
     }
     catch(error){
-      printOnyOnDebugMode(["getData Error : " + error.toString()]);
+      printOnyOnDebugMode(["getData Ran Into Error : " + error.toString()]);
       rethrow;
     }
   }
 
   @override
   Future<Response<Map>> getDataWithPCB({required Uri uri , required ProgressCallback progCallBack})async{
-    Response<Map> getRes =  await _dio.getUri(uri , onReceiveProgress: progCallBack);
-     return getRes;
+    printOnyOnDebugMode(["Calling : "+uri.toString()]);
+    try {
+      Response<Map> getRes =  await _dio.getUri(uri , onReceiveProgress: progCallBack);
+      return getRes;
+    }
+    catch(error){
+      printOnyOnDebugMode(["getData Ran Into Error : " + error.toString()]);
+      rethrow;
+    }
  }
 
 

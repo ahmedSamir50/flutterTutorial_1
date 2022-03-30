@@ -17,6 +17,7 @@ abstract class INewsAppCubit {
   void changeCurrentViewIndex({int idx});
 
   void setAppLoadingState();
+  void toggleAppTheme();
 
   Future getNews();
 
@@ -29,6 +30,8 @@ abstract class INewsAppCubit {
   bool appHasError = false;
   String appErrorString = "Error";
   NewsApiResponse? newsResults ;
+  bool isFirstCallMade = false;
+  bool appThemeIsDark = true;
 }
 
 class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
@@ -49,7 +52,10 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
   NewsApiResponse? newsResults = NewsApiResponse(
       status: NewsApiCallStatus.failed, totalResults: 0, articles: []);
   final IDioHelper _dioHelper = DioHelper(uriBase: NewsConstants.baseAPiHost);
+  @override
   bool isFirstCallMade = false;
+  @override
+  bool appThemeIsDark = true;
 
   NewsAppCubit() : super(NewsInitState()) {
     newsScreens = [
@@ -97,12 +103,14 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
 
   @override
   Widget getCurrentScreen() {
-    if(!isFirstCallMade){
-      var screen = newsScreens[currentAppScreenIdx].runtimeType.toString();
-      var caller = screen.contains("Business")?NewsCategories.Business :
-                   screen.contains("Sports")?NewsCategories.Sports:
-                   screen.contains("Social")?NewsCategories.Social:
-                   NewsCategories.Any;
+    var screen = newsScreens[currentAppScreenIdx].runtimeType.toString();
+    var caller = screen.contains("Business")?NewsCategories.Business :
+    screen.contains("Sports")?NewsCategories.Sports:
+    screen.contains("Social")?NewsCategories.Social:
+    screen.contains("Science")?NewsCategories.Science:
+    NewsCategories.Any;
+    if(!isFirstCallMade && caller != NewsCategories.Any){
+
       isFirstCallMade = true;
       getNews(caller).onError((error, stackTrace) {
         appHasError = true;
@@ -127,7 +135,8 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
         queryParams.addAll({NewsConstants.newsApiCategoryParam :
         categ==NewsCategories.Business?"Business" :
         categ==NewsCategories.Social ? "Social" :
-        categ==NewsCategories.Sports ? "Sports" : "any"
+        categ==NewsCategories.Sports ? "Sports" :
+        categ==NewsCategories.Science ? "Science" : "any"
         });
       var uri = NewsConstants.formApiCall(
           path: NewsConstants.newsHeadLinesApiRout + "/",
@@ -140,5 +149,11 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
 
     emit(AppGettingNewsState());
     setAppLoadingState();
+  }
+
+  @override
+  void toggleAppTheme(){
+    appThemeIsDark = !appThemeIsDark;
+    emit(AppChangeThemeModeState());
   }
 }

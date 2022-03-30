@@ -6,7 +6,7 @@ import 'package:untitled1/shared/dependency_injection.dart';
 
 void main() {
   DI().setup();
-  runApp(const NewsAppLayout());
+  runApp( NewsAppLayout());
 }
 
 class MyApp extends StatefulWidget {
