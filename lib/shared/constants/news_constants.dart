@@ -11,6 +11,8 @@ class NewsConstants{
   static const newsApiCountryParamEgValue = "eg";
   static const newsApiVersion = "v2";
   static const newsHeadLinesApiRout = "top-headlines";
+  static const isDarkThemeSharedPrefKey = "isDarkTheme";
+  static const userLastPageSharedPrefKey = "userLastPageIdx";
 
   static Uri formApiCall({ required String path , required Map<String , dynamic> queryParams  }){
     var newUri = Uri(scheme: baseApiScheme,host: baseAPiHost , path: newsApiVersion +"/"+ path , queryParameters: {...queryParams,newsAPIKeyParam:newsAPIKeyValue2});

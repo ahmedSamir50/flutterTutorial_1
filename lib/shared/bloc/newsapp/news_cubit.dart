@@ -10,6 +10,8 @@ import 'package:untitled1/modules/newsapp/sports.dart';
 import 'package:untitled1/shared/bloc/newsapp/news_statuses.dart';
 import 'package:untitled1/shared/components/constants.dart';
 import 'package:untitled1/shared/constants/news_constants.dart';
+import 'package:untitled1/shared/dependency_injection.dart';
+import 'package:untitled1/shared/helpers/cash_helper.dart';
 import 'package:untitled1/shared/helpers/extintions/stringexteintions.dart';
 import 'package:untitled1/shared/netwok/remote/dio_Helper.dart';
 
@@ -32,6 +34,7 @@ abstract class INewsAppCubit {
   NewsApiResponse? newsResults ;
   bool isFirstCallMade = false;
   bool appThemeIsDark = true;
+  int userLastPage = 0 ;
 }
 
 class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
@@ -51,11 +54,14 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
   @override
   NewsApiResponse? newsResults = NewsApiResponse(
       status: NewsApiCallStatus.failed, totalResults: 0, articles: []);
-  final IDioHelper _dioHelper = DioHelper(uriBase: NewsConstants.baseAPiHost);
+  final IDioHelper _dioHelper = getItDIContainer.get<DioHelper>();
+  final ICashHelper _cashHelper = getItDIContainer.get<CashHelper>();
   @override
   bool isFirstCallMade = false;
   @override
-  bool appThemeIsDark = true;
+  bool appThemeIsDark = false;
+  @override
+  int userLastPage = 0;
 
   NewsAppCubit() : super(NewsInitState()) {
     newsScreens = [
@@ -65,6 +71,20 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
        SettingsScreen()
     ];
     appTitle = _setAppTitle();
+
+      _cashHelper.getData(NewsConstants.isDarkThemeSharedPrefKey).then((value){
+        appThemeIsDark = (value?.toString() ??"false") == "true";
+      });
+    _cashHelper.getData(NewsConstants.userLastPageSharedPrefKey).then((value){
+      userLastPage = int.parse(value.toString(),onError: (value)=>0) ;
+      changeCurrentViewIndex(idx: userLastPage);
+    });
+      _cashHelper.getAllPrefData().then((value ){
+        for(var elem in value){
+          print("Here =>>>>>>>> elem ");
+          print(elem);
+        }
+      });
   }
 
   String _setAppTitle() => _toggleIconEmoji(getCurrentScreen().runtimeType.toString().replaceAll("Screen", "") + " 📰 News");
@@ -90,9 +110,12 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
     currentAppScreenIdx = idx;
     isFirstCallMade=false;
     setAppLoadingState();
-    emit(ChangeNavBarState());
-    setAppLoadingState();
-    appTitle = _setAppTitle();
+    _cashHelper.putStringData({NewsConstants.userLastPageSharedPrefKey :idx.toString()}).then((value){
+      emit(ChangeNavBarState());
+      setAppLoadingState();
+      appTitle = _setAppTitle();
+    });
+
   }
 
   @override
@@ -154,6 +177,9 @@ class NewsAppCubit extends Cubit<NewsBaseState> implements INewsAppCubit {
   @override
   void toggleAppTheme(){
     appThemeIsDark = !appThemeIsDark;
-    emit(AppChangeThemeModeState());
+    _cashHelper.putStringData({NewsConstants.isDarkThemeSharedPrefKey :appThemeIsDark.toString()}).then((value){
+      emit(AppChangeThemeModeState());
+    });
+
   }
 }

@@ -5,6 +5,7 @@ import 'package:untitled1/models/todo_model.dart';
 import 'package:untitled1/shared/bloc/newsapp/news_cubit.dart';
 import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
 import 'package:untitled1/shared/components/constants.dart';
+import 'package:untitled1/shared/components/webViewWidegt.dart';
 
 Widget defaultTextInput({
   bool isObscureText = false,
@@ -95,16 +96,17 @@ Widget todoModelWidgetBuilder(TODOModel model , TODOAppCubit cubitState) {
 Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit , BuildContext context){
   var img = "assets/images/loading.gif";
   String imgUrl = (model.urlToImage.isNotEmpty ? model.urlToImage : img);
-  return Row(
+  return InkWell(
+    child: Row(
     children: [
       Container(
-        height: 80,
-        width: 80,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child:FadeInImage(image: NetworkImage( imgUrl, scale: 1) , placeholder: AssetImage(img),)
-        ),
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child:FadeInImage(image: NetworkImage( imgUrl, scale: 1) , placeholder: AssetImage(img),)
+      ),
       const SizedBox(width: 5,),
       Expanded(child: SizedBox(
         height: 80,
@@ -116,12 +118,15 @@ Widget newsModelWidgetBuilder(NewsArticle model , NewsAppCubit cuibit , BuildCon
               style: Theme.of(context).textTheme.bodyText1,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              )),
+            )),
             Text(DateFormat("yyyy-MM-dd").format(model.publishedAt) ,
               style:  TextStyle(color: Colors.grey[900] ),textAlign: TextAlign.left,)
           ],
         ),
       ))
     ],
+  ),
+    onTap: ()=>navigateTo(context,WebViewWidget(initUrl: model.url)),
   );
 }
+void navigateTo(BuildContext ctx , Widget toWidget)=> Navigator.push(ctx, MaterialPageRoute(builder: (context) =>  toWidget));
