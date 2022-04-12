@@ -11,7 +11,8 @@ ThemeData getAppNormalTheme() {
           bodyText1: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.black87)),
+              color: Colors.black87),
+      ),
       primarySwatch: Colors.deepOrange,
       backgroundColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
@@ -33,7 +34,9 @@ ThemeData getAppNormalTheme() {
           selectedIconTheme: IconThemeData(color: Colors.deepOrange),
           selectedItemColor: Colors.deepOrange,
           showUnselectedLabels: true,
-          unselectedItemColor: Colors.white));
+          unselectedItemColor: Colors.white),
+  fontFamily: "Jannah"
+  );
 }
 
 ThemeData getAppDarkThem() {
@@ -65,5 +68,6 @@ ThemeData getAppDarkThem() {
         selectedItemColor: Colors.deepOrange,
         showUnselectedLabels: true,
         unselectedItemColor: Colors.white),
+      fontFamily: "Jannah"
   );
 }
