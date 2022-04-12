@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:untitled1/shared/components/constants.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/constants.dart';
 
 enum NewsApiCallStatus { ok, failed, init }
 

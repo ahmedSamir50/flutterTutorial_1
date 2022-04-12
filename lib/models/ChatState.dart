@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/modules/messenger/MessengerHomeScreen.dart';
-import 'package:untitled1/main.dart';
+import 'package:my_flutter_tutorial_learn1/main.dart';
+import 'package:my_flutter_tutorial_learn1/modules/messenger/MessengerHomeScreen.dart';
 
 class ChatAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -11,7 +10,7 @@ class ChatAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MessengerHomeScreen(),
     );

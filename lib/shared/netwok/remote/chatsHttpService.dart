@@ -1,14 +1,15 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:untitled1/models/UserInChatModel.dart';
+import 'package:my_flutter_tutorial_learn1/models/UserInChatModel.dart';
 
-class ChatsHttpService{
+class ChatsHttpService {
   final String userApiUrl = "https://randomuser.me/api";
-  Future<UserInChatModel> getUser() async{
-
+  Future<UserInChatModel> getUser() async {
     UserInChatModel response = await _fetchUser();
     return response;
   }
+
   Future<UserInChatModel> _fetchUser() async {
     final response = await http.get(Uri.parse(userApiUrl));
 

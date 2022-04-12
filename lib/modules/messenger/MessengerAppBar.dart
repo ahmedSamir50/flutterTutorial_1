@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/shared/components/MyAppBar.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/MyAppBar.dart';
 
 class MessengerAppBar {
   static const avtImg =
@@ -8,25 +8,23 @@ class MessengerAppBar {
     CircleAvatar(
       child: IconButton(
           icon: const Icon(Icons.photo_camera),
-          onPressed: () => {
-            print("camira btn clicked .... ")
-          },
+          onPressed: () => {print("camira btn clicked .... ")},
           iconSize: 30),
       backgroundColor: Colors.black,
     ),
     const SizedBox(width: 5),
     CircleAvatar(
       child: IconButton(
-          icon: const Icon(Icons.edit), onPressed: () => {
-            print("edit btn clicked .... ")
-      }, iconSize: 30),
+          icon: const Icon(Icons.edit),
+          onPressed: () => {print("edit btn clicked .... ")},
+          iconSize: 30),
       backgroundColor: Colors.black,
     ),
   ];
   static getMessengerAppBar() => MyAppBar(
       barColor: Colors.black,
       titleSpacing: 20,
-      leading:  Container(
+      leading: Container(
         padding: const EdgeInsets.all(10),
         child: const CircleAvatar(
           backgroundColor: Colors.black,

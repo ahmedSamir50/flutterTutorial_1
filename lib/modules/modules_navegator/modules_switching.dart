@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:untitled1/layout/news_app/news_app_layout.dart';
-import 'package:untitled1/layout/todoapp_bottom_nav/todo_app_home_layout.dart';
-import 'package:untitled1/modules/bmi/BMIApp.dart';
-import 'package:untitled1/modules/login/LogInScreen.dart';
-import 'package:untitled1/modules/messenger/MessengerHomeScreen.dart';
-import 'package:untitled1/shared/dependency_injection.dart';
+import 'package:my_flutter_tutorial_learn1/layout/news_app/news_app_layout.dart';
+import 'package:my_flutter_tutorial_learn1/layout/todoapp_bottom_nav/todo_app_home_layout.dart';
+import 'package:my_flutter_tutorial_learn1/modules/bmi/BMIApp.dart';
+import 'package:my_flutter_tutorial_learn1/modules/login/LogInScreen.dart';
+import 'package:my_flutter_tutorial_learn1/modules/messenger/MessengerHomeScreen.dart';
+import 'package:my_flutter_tutorial_learn1/modules/shopping/onboarding.dart';
+import 'package:my_flutter_tutorial_learn1/shared/dependency_injection.dart';
 
 class ModulesSwitcher extends StatelessWidget {
   const ModulesSwitcher({Key? key}) : super(key: key);
@@ -21,10 +22,13 @@ class ModulesSwitcher extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(),
             body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
                   height: 20,
                 ),
+                getShoppingApp(context),
                 getNewsApp(context),
                 getTodoApp(context),
                 getMessengerApp(context),
@@ -89,11 +93,40 @@ class ModulesSwitcher extends StatelessWidget {
     );
   }
 
+  Widget getShoppingApp(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+          onTap: () {
+            DI().setup(DIApps.ShoppingApp);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+                child: Container(
+              child: Row(
+                children: const [
+                  Text("Shopping App Example", style: TextStyle(fontSize: 22)),
+                  SizedBox( width: 30),
+                  Icon(Icons.shopping_cart)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25), color: Colors.white),
+              height: 80,
+            )),
+          )),
+    );
+  }
+
   Widget getNewsApp(BuildContext context) {
     return Expanded(
       child: InkWell(
           onTap: () {
-            DI().setup();
+            DI().setup(DIApps.NewsApp);
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => NewsAppLayout()));
           },
@@ -101,13 +134,17 @@ class ModulesSwitcher extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
                 child: Container(
-              child: Row(children: const [
-                Text("News App Example", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(Icons.newspaper)
-              ]),
+              child: Row(
+                children: const [
+                  Text("News App Example", style: TextStyle(fontSize: 22)),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Icon(Icons.newspaper)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.white),
               height: 80,
@@ -127,13 +164,17 @@ class ModulesSwitcher extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
                 child: Container(
-              child: Row(children: const [
-                Text("BMI App Example", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(Icons.accessibility)
-              ]),
+              child: Row(
+                children: const [
+                  Text("BMI App Example", style: TextStyle(fontSize: 22)),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Icon(Icons.accessibility)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.white),
               height: 80,
@@ -155,13 +196,17 @@ class ModulesSwitcher extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
                 child: Container(
-              child: Row(children: const [
-                Text("Login Screen Example", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(Icons.login_rounded)
-              ]),
+              child: Row(
+                children: const [
+                  Text("Login Screen Example", style: TextStyle(fontSize: 22)),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Icon(Icons.login_rounded)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.white),
               height: 80,
@@ -183,13 +228,17 @@ class ModulesSwitcher extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
                 child: Container(
-              child: Row(children: const [
-                Text("Messenger App Example", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(Icons.messenger)
-              ]),
+              child: Row(
+                children: const [
+                  Text("Messenger App Example", style: TextStyle(fontSize: 22)),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Icon(Icons.messenger)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.white),
               height: 80,
@@ -209,13 +258,17 @@ class ModulesSwitcher extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
                 child: Container(
-              child: Row(children: const [
-                Text("TODO App Example", style: TextStyle(fontSize: 22)),
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(Icons.task_sharp)
-              ]),
+              child: Row(
+                children: const [
+                  Text("TODO App Example", style: TextStyle(fontSize: 22)),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Icon(Icons.task_sharp)
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.white),
               height: 80,

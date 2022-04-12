@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/models/todo_model.dart';
-import 'package:untitled1/shared/bloc/todo/todoCubit.dart';
-import 'package:untitled1/shared/components/components.dart';
+import 'package:my_flutter_tutorial_learn1/models/todo_model.dart';
+import 'package:my_flutter_tutorial_learn1/shared/bloc/todo/todoCubit.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/components.dart';
 
 class ScreenOfTasksBodySeparatedList extends StatelessWidget {
   const ScreenOfTasksBodySeparatedList({
@@ -17,7 +17,7 @@ class ScreenOfTasksBodySeparatedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemBuilder: (ctx, idx) {
-          return todoModelWidgetBuilder(listOfTasks[idx] , cubit);
+          return todoModelWidgetBuilder(listOfTasks[idx], cubit);
         },
         separatorBuilder: (ctx, idx) {
           return Container(

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/shared/bloc/newsapp/news_cubit.dart';
-import 'package:untitled1/shared/bloc/newsapp/news_statuses.dart';
-import 'package:untitled1/shared/components/build_news_screen.dart';
-import 'package:untitled1/shared/components/components.dart';
-import 'package:untitled1/shared/components/constants.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/build_news_screen.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/constants.dart';
 
 @immutable
 class SearchScreen extends StatelessWidget {

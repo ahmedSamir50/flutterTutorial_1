@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/models/loginvm.dart';
-import 'package:untitled1/modules/login/LogInScreen.dart';
-import 'package:untitled1/shared/components/MyAppBar.dart';
-import 'package:untitled1/shared/components/MyAppBarActions.dart';
-import 'package:untitled1/shared/components/components.dart';
+import 'package:my_flutter_tutorial_learn1/models/loginvm.dart';
+import 'package:my_flutter_tutorial_learn1/modules/login/LogInScreen.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/MyAppBar.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/MyAppBarActions.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/components.dart';
 
 class LoginScreenStateFulState extends State<LoginScreenStateFul> {
   late LoginVM frmCRT;
