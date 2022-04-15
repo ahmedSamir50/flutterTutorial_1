@@ -9,7 +9,7 @@ import 'package:my_flutter_tutorial_learn1/shared/helpers/helpers.dart';
 
 class NewTasks extends StatelessWidget {
   static bool firstCallMade = false;
-  NewTasks({Key? key}) : super(key: key);
+  const NewTasks({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

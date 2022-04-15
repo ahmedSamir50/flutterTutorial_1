@@ -25,7 +25,7 @@ class ToDoAppDbAHandler {
   Future<Database> _getDbInstance() async {
     var databasesPath = (await getApplicationDocumentsDirectory()).path;
     var finalPath = join(databasesPath, _dbPath);
-    printOnyOnDebugMode(["final path ", "$finalPath"]);
+    printOnyOnDebugMode(["final path ", finalPath]);
     return await openDatabase(finalPath,
         version: _dbVersion,
         onCreate: (db, version) => OnCreateDb(db, version),

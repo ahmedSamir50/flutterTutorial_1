@@ -60,7 +60,7 @@ class SimpleWebWiewWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(),
+      body: const WebView(),
       appBar: AppBar(),
     );
   }

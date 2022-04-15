@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_flutter_tutorial_learn1/shared/helpers/helpers.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -19,15 +17,15 @@ class OnBoardingScreen extends StatelessWidget {
     );
   }
   Widget buildBoardingItem(int idx){
-    String imgPath = "images/onboardingInit${idx}.png";
+    String imgPath = "images/onboardingInit$idx.png";
     printOnyOnDebugMode([imgPath]);
     var column = Column(
         children: [
-          Expanded(child: Image(image: AssetImage("images/onboardingInit${idx}.png"),fit:BoxFit.cover ),),
-          SizedBox(height: 20,),
-          Text("Screen Title " , style: TextStyle(fontSize: 24.0 , fontWeight: FontWeight.bold),),
-          SizedBox(height: 20,),
-          Text("Screen Title " , style: TextStyle(fontSize: 24.0 , fontWeight: FontWeight.bold),),
+          Expanded(child: Image(image: AssetImage("images/onboardingInit$idx.png"),fit:BoxFit.cover ),),
+          const SizedBox(height: 20,),
+          const Text("Screen Title " , style: TextStyle(fontSize: 24.0 , fontWeight: FontWeight.bold),),
+          const SizedBox(height: 20,),
+          const Text("Screen Title " , style: TextStyle(fontSize: 24.0 , fontWeight: FontWeight.bold),),
         ]
     );
     return column;

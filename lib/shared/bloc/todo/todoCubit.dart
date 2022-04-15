@@ -21,7 +21,7 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
   static bool isFirstGetCallMade = false;
   TODOAppCubit() : super(TODOInitState()) {
     dbHandler = ToDoAppDbAHandler.instance;
-    screens = [NewTasks(), const DoneTasks(), const ArchivedTasks()];
+    screens = [const NewTasks(), const DoneTasks(), const ArchivedTasks()];
   }
 
   static TODOAppCubit getCubitOfTodo(BuildContext context) =>

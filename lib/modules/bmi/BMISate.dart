@@ -272,7 +272,7 @@ class BMIState extends State<BMIApp> {
                               MaterialPageRoute(
                                   builder: (context) => BMIResultsScreen(stt)))
                         },
-                    child: Text("CALCULATE ! "))
+                    child: const Text("CALCULATE ! "))
               ],
             ),
           ),
