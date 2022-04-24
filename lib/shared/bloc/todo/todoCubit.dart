@@ -19,6 +19,7 @@ class TODOAppCubit extends Cubit<TODOStateBase> {
   late final ToDoAppDbAHandler dbHandler;
   bool loadingData = false;
   static bool isFirstGetCallMade = false;
+
   TODOAppCubit() : super(TODOInitState()) {
     dbHandler = ToDoAppDbAHandler.instance;
     screens = [const NewTasks(), const DoneTasks(), const ArchivedTasks()];

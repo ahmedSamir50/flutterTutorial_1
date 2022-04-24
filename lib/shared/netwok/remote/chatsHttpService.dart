@@ -5,6 +5,7 @@ import 'package:my_flutter_tutorial_learn1/models/UserInChatModel.dart';
 
 class ChatsHttpService {
   final String userApiUrl = "https://randomuser.me/api";
+
   Future<UserInChatModel> getUser() async {
     UserInChatModel response = await _fetchUser();
     return response;

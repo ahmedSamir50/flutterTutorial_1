@@ -8,6 +8,7 @@ class TODOModel {
   late DateTime timeOfCreation;
   late DateTime lastStateTime;
   late TODOAPPTASKStatuses state;
+
   TODOModel(
       this.id, this.title, this.timeOfCreation, this.state, this.lastStateTime);
 

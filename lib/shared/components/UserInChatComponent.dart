@@ -8,6 +8,7 @@ import 'package:my_flutter_tutorial_learn1/shared/netwok/remote/chatsHttpService
 class UserInChatComponent {
   static final DateFormat formatter = DateFormat('MM-dd hh:mm');
   static const int reads = 20;
+
   static Future<List<UserInChatModel>> getUsersInChat() async {
     List<UserInChatModel> userChats = [];
     ChatsHttpService serv = ChatsHttpService();

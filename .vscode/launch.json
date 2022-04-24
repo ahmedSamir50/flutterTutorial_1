@@ -1,23 +1,22 @@
 {
-
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "my_flutter_tutorial_learn1",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "my_flutter_tutorial_learn1 (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "my_flutter_tutorial_learn1 (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "my_flutter_tutorial_learn1",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "my_flutter_tutorial_learn1 (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "my_flutter_tutorial_learn1 (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
 }

@@ -2,7 +2,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ICashHelper {
   Future<bool> putStringData(Map<String, String> data);
+
   Future<Object?> getData(String elemKey);
+
   Future<List<Map<String, dynamic>>> getAllPrefData();
 }
 

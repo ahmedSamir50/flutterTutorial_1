@@ -5,6 +5,7 @@ import 'package:my_flutter_tutorial_learn1/shared/helpers/helpers.dart';
 
 abstract class IDioHelper {
   Future<Response<Map>> getData({required Uri uri});
+
   Future<Response<Map>> getDataWithPCB(
       {required Uri uri, required ProgressCallback progCallBack});
 }
@@ -12,9 +13,11 @@ abstract class IDioHelper {
 //@Injectable()
 class DioHelper implements IDioHelper {
   static Dio _dio = Dio();
+
   DioHelper({required String uriBase}) {
     init(uriBase: uriBase);
   }
+
   static init({required String uriBase}) {
     _dio = Dio(BaseOptions(baseUrl: uriBase, receiveDataWhenStatusError: true));
   }

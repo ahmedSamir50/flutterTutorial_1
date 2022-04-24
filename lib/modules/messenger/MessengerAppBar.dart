@@ -21,6 +21,7 @@ class MessengerAppBar {
       backgroundColor: Colors.black,
     ),
   ];
+
   static getMessengerAppBar() => MyAppBar(
       barColor: Colors.black,
       titleSpacing: 20,

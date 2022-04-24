@@ -21,9 +21,11 @@ abstract class INewsAppCubit {
   void changeCurrentViewIndex({int idx});
 
   void setAppLoadingState();
+
   void toggleAppTheme();
 
   Future getNews();
+
   Future getNewsForSearch(String? serchFor);
 
   Widget getCurrentScreen();

@@ -9,6 +9,7 @@ enum TODOAPPTASKStatuses {
   UNKNOWN
 }
 enum NewsCategories { Business, Sports, Social, Science, Any }
+
 formatDateToTimeOnly(DateTime dateTime) {
   DateFormat dateFormat = DateFormat.Hm();
   return dateFormat.format(dateTime);
