@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled1/models/UserInChatModel.dart';
-import 'package:untitled1/shared/netwok/remote/chatsHttpService.dart';
+import 'package:my_flutter_tutorial_learn1/models/UserInChatModel.dart';
+import 'package:my_flutter_tutorial_learn1/shared/netwok/remote/chatsHttpService.dart';
 
 class UserInChatComponent {
   static final DateFormat formatter = DateFormat('MM-dd hh:mm');
@@ -31,20 +31,24 @@ class UserInChatComponent {
             }
             List<Widget> all = [
               SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: [...userStates]),
-                  ),
-              Expanded( child: SingleChildScrollView(
-                  child: Column(children:[...usersComp])
-          ))];
-            return Expanded(child: Column(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [...userStates]),
+              ),
+              Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(children: [...usersComp])))
+            ];
+            return Expanded(
+                child: Column(
               children: all,
             ));
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
           // By default, show a loading spinner.
-          return const CircularProgressIndicator(color: Colors.red,);
+          return const CircularProgressIndicator(
+            color: Colors.red,
+          );
         },
         future: userChats);
   }
@@ -109,37 +113,43 @@ class UserInChatComponent {
 
   static Padding getUserWidgetStackStatus(UserInChatModel user) {
     return Padding(
-        padding: const EdgeInsets.all(5.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(5.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
             children: [
-             Column(
-               children: [ Stack(
-                 alignment: AlignmentDirectional.bottomEnd,
-                 children: [
-                   CircleAvatar(
-                     radius: 20,
-                     foregroundImage: NetworkImage(user.imgUrl),
-                   ),
-                   const CircleAvatar(
-                     radius: 8,
-                     backgroundColor: Colors.white,
-                   ),
-                   const CircleAvatar(
-                     radius: 7,
-                     backgroundColor: Colors.green,
-                   )
-                 ],
-               ),
-                 Text(user.name,
-                     style:
-                     const TextStyle(color: Colors.white,
-                         fontSize: 12 , overflow: TextOverflow.clip),
-                     textAlign: TextAlign.left , maxLines: 1,)],
-             )
+              Stack(
+                alignment: AlignmentDirectional.bottomEnd,
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    foregroundImage: NetworkImage(user.imgUrl),
+                  ),
+                  const CircleAvatar(
+                    radius: 8,
+                    backgroundColor: Colors.white,
+                  ),
+                  const CircleAvatar(
+                    radius: 7,
+                    backgroundColor: Colors.green,
+                  )
+                ],
+              ),
+              Text(
+                user.name,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    overflow: TextOverflow.clip),
+                textAlign: TextAlign.left,
+                maxLines: 1,
+              )
             ],
-          ),
-        );
+          )
+        ],
+      ),
+    );
   }
 }

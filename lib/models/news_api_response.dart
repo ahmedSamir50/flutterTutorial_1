@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:untitled1/shared/components/constants.dart';
+import 'package:my_flutter_tutorial_learn1/shared/components/constants.dart';
 
-enum NewsApiCallStatus { ok, failed }
+enum NewsApiCallStatus { ok, failed, init }
 
 class NewsArticle {
   String source = "";
@@ -26,7 +26,8 @@ class NewsArticle {
       required this.content,
       this.newsCategory = NewsCategories.Any});
 
-  factory NewsArticle.fromMap(Map mapDataFromJson, [NewsCategories categ = NewsCategories.Any]) {
+  factory NewsArticle.fromMap(Map mapDataFromJson,
+      [NewsCategories categ = NewsCategories.Any]) {
     //DateFormat format = DateFormat("yyyy-MM-dd:hh:mm");
     var res = mapDataFromJson;
     var elemEntries =
@@ -55,14 +56,15 @@ class NewsApiResponse {
       required this.articles,
       required this.totalResults});
 
-
-  factory NewsApiResponse.fromMap(Response<Map> jsonData, [NewsCategories categ = NewsCategories.Any]) {
+  factory NewsApiResponse.fromMap(Response<Map> jsonData,
+      [NewsCategories categ = NewsCategories.Any]) {
     var res = jsonData;
     if (res.data == null) {
       return NewsApiResponse(
           status: NewsApiCallStatus.failed, articles: [], totalResults: 0);
     }
-    Map reversed = Map.fromEntries(jsonData.data!.entries.map((e) => MapEntry(e.key, e.value)));
+    Map reversed = Map.fromEntries(
+        jsonData.data!.entries.map((e) => MapEntry(e.key, e.value)));
     var articles = reversed['articles'] as List<dynamic>;
     List<NewsArticle> articlesMapped = [];
     for (Map mapElem in articles) {

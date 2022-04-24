@@ -7,7 +7,7 @@ class BMIStateModel {
   int clientWight = 60;
   ClientGender clientGender = ClientGender.MALE;
 
-  double clientBMI() => (clientWight / pow((clientHeight / 100), 2)) ;
+  double clientBMI() => (clientWight / pow((clientHeight / 100), 2));
 
   String bmiState() {
     var bmi = clientBMI();

@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/models/BIMStateModel.dart';
+import 'package:my_flutter_tutorial_learn1/models/BIMStateModel.dart';
 
 @immutable
 class BMIResultsScreen extends StatelessWidget {
@@ -11,9 +10,9 @@ class BMIResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Container(
+      body: Container(
         padding: const EdgeInsets.all(40),
-        child:  Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

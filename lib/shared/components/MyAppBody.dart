@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBody {
@@ -18,28 +17,29 @@ class MyAppBody {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(
-                    borderRadius:  BorderRadius.circular(40)
-                ),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(40)),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Stack(
                   alignment: Alignment.bottomCenter,
-                  children:  [
-                    Image(
+                  children: [
+                    const Image(
                       image: NetworkImage(peopelImg),
                       fit: BoxFit.fill,
                     ),
                     Container(
-                      width: double.infinity,
-                      //  EdgeInsetsDirectional.only(end: 12,bottom: 12,top: 12)
+                        width: double.infinity,
+                        //  EdgeInsetsDirectional.only(end: 12,bottom: 12,top: 12)
                         // EdgeInsets.all()
-                      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
-                      child:  Text("data on the stack " ,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(backgroundColor: Colors.black.withOpacity(0.7),
-                            color: Colors.white)
-                        ,)
-                    ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
+                        child: Text(
+                          "data on the stack ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              backgroundColor: Colors.black.withOpacity(0.7),
+                              color: Colors.white),
+                        )),
                   ],
                 ),
               ),
@@ -73,9 +73,9 @@ class MyAppBody {
               const Text(
                 "Second Text Of Column",
                 style: TextStyle(
-                fontSize: 30,
-                color: Colors.white,
-                backgroundColor: Colors.green),
+                    fontSize: 30,
+                    color: Colors.white,
+                    backgroundColor: Colors.green),
               ),
               Container(
                 child: const Text(
@@ -107,7 +107,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                  child: Text(
+                  child: const Text(
                 "Second Text Of Column",
                 style: TextStyle(
                     fontSize: 30,
@@ -136,7 +136,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                child: Text(
+                child: const Text(
                   "Second Text Of Column",
                   style: TextStyle(
                       fontSize: 30,
@@ -145,7 +145,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                  child: Text(
+                  child: const Text(
                 "Second Text Of Column",
                 style: TextStyle(
                     fontSize: 30,
@@ -174,7 +174,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                child: Text(
+                child: const Text(
                   "Second Text Of Column",
                   style: TextStyle(
                       fontSize: 30,
@@ -183,7 +183,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                  child: Text(
+                  child: const Text(
                 "Second Text Of Column",
                 style: TextStyle(
                     fontSize: 30,
@@ -212,7 +212,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                child: Text(
+                child: const Text(
                   "Second Text Of Column",
                   style: TextStyle(
                       fontSize: 30,
@@ -221,7 +221,7 @@ class MyAppBody {
                 ),
               ),
               Container(
-                  child: Text(
+                  child: const Text(
                 "Second Text Of Column",
                 style: TextStyle(
                     fontSize: 30,

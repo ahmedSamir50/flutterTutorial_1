@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginVM{
+class LoginVM {
   var emailCtr = TextEditingController();
   var passwordCtr = TextEditingController();
-  bool displayPassField = false ;
+  bool displayPassField = false;
 }
